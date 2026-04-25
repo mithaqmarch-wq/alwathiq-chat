@@ -1,100 +1,189 @@
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+/* استخدام خطوط النظام لضمان الاحترافية القصوى */
+:root {
+  --ios-blue: #007AFF;
+  --ios-green: #34C759;
+  --ios-red: #FF3B30;
+  --ios-gray-bg: #F2F2F7;
+  --ios-gray-input: #E5E5EA;
+  --ios-msg-received: #E5E5EA;
+  --ios-text-black: #000000;
+  --ios-text-white: #FFFFFF;
+}
 
-* { box-sizing: border-box; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
 body {
   margin: 0; padding: 0;
-  font-family: 'Share Tech Mono', monospace; /* خط الهاكرز */
-  background-color: #050505;
-  color: #00ff41; /* لون الماتريكس الأخضر */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--ios-gray-bg);
+  color: var(--ios-text-black);
   height: 100vh;
   display: flex; justify-content: center; align-items: center;
-  direction: ltr; /* اللغة البرمجية أفضل من اليسار لليمين */
+  overflow: hidden;
+  direction: rtl;
+}
+
+#app { width: 100%; max-width: 450px; height: 100%; position: relative; }
+
+/* اللوحة العامة بستايل الآيفون */
+.ios-panel {
+  background-color: var(--ios-text-white);
+  height: 100%;
+  display: flex; flex-direction: column;
   overflow: hidden;
 }
 
-/* تأثير شاشات الهاكرز القديمة */
-.crt-overlay {
+/* شاشة الدخول */
+#login-screen.centered { justify-content: center; align-items: center; padding: 30px; text-align: center; }
+.passcode-header { margin-bottom: 30px; }
+.lock-icon { font-size: 3rem; margin-bottom: 10px; }
+h2 { margin: 0; font-weight: 600; font-size: 1.5rem; }
+p { margin: 5px 0; color: #8E8E93; font-size: 0.9rem; }
+
+.passcode-input-group { display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 280px; }
+.ios-input-round {
+  width: 100%; padding: 15px; text-align: center; letter-spacing: 5px;
+  border-radius: 12px; border: 1px solid rgba(0,0,0,0.1);
+  background-color: #F2F2F7; color: var(--ios-text-black);
+  font-size: 1.2rem;
+}
+.ios-btn-blue {
+  width: 100%; padding: 15px;
+  border-radius: 12px; border: none;
+  background-color: var(--ios-blue); color: var(--ios-text-white);
+  font-weight: 600; font-size: 1rem; cursor: pointer;
+}
+
+.error { color: var(--ios-red); display: none; font-size: 0.85rem; margin-top: 10px; }
+
+/* شاشة الدردشة (iMessage) */
+#chat-screen { background-color: var(--ios-text-white); }
+
+/* رأس الصفحة الشفاف (iOS Navbar) */
+.ios-navbar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  background-color: rgba(255,255,255,0.9);
+  backdrop-filter: blur(10px);
+  position: sticky; top: 0; z-index: 10;
+}
+.nav-center { text-align: center; flex: 1; }
+.nav-center h2 { font-size: 1.1rem; margin: 0; }
+.status { font-size: 0.7rem; color: var(--ios-green); }
+
+.chat-messages { flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding: 15px; }
+.chat-messages::-webkit-scrollbar { display: none; }
+
+.message { padding: 10px 15px; border-radius: 18px; max-width: 75%; position: relative; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; }
+.sys-msg { background: transparent; border: none; text-align: center; margin: 5px auto; color: #8E8E93; font-size: 0.8rem; }
+.sys-msg p { margin: 0; }
+
+.received { background-color: var(--ios-msg-received); align-self: flex-start; color: var(--ios-text-black); border-bottom-right-radius: 5px; }
+.sent { background-color: var(--ios-blue); align-self: flex-end; color: var(--ios-text-white); border-bottom-left-radius: 5px; }
+
+/* تنسيق ملصقات الآيفون الحقيقية (كبيرة وبدون خلفية) */
+.msg-sticker {
+  background-color: transparent !important;
+  font-size: 4rem;
+  padding: 0;
+  line-height: 1;
+  border: none !important;
+  filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2));
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.msg-meta { display: flex; justify-content: flex-end; margin-top: 3px; font-size: 0.6rem; color: rgba(0,0,0,0.3); gap: 10px; }
+.sent .msg-meta { color: rgba(255,255,255,0.6); }
+
+/* شريط الإدخال السفلي (iMessage style) */
+.ios-input-bar {
+  display: flex; gap: 8px; align-items: center;
+  padding: 10px 15px;
+  background-color: rgba(255,255,255,0.9);
+  border-top: 1px solid rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
+}
+.ios-input-bar input[type="text"] {
+  margin: 0; border: none; background-color: var(--ios-gray-input);
+  padding: 10px 15px; flex-grow: 1;
+  border-radius: 20px;
+  color: var(--ios-text-black);
+}
+.ios-input-bar input:focus { outline: none; background-color: #D1D1D6; }
+
+.input-actions-left, .input-actions-right { display: flex; gap: 10px; }
+
+.icon-btn-ios { background: transparent; border: none; color: var(--ios-blue); font-size: 1.3rem; padding: 5px; cursor: pointer; transition: 0.2s; }
+.icon-btn-ios:active { transform: scale(0.9); opacity: 0.7; }
+
+.send-btn-ios {
+  background-color: var(--ios-blue); color: var(--ios-text-white);
+  border: none; padding: 8px; border-radius: 50%;
+  width: 32px; height: 32px;
+  display: flex; justify-content: center; align-items: center;
+  font-size: 1rem; cursor: pointer;
+}
+.send-btn-ios:active { transform: scale(0.9); }
+
+/* درج الملصقات المطور (كامل مثل الآيفون) */
+.sticker-drawer {
+  position: absolute; bottom: -300px; left: 0; right: 0;
+  background-color: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(0,0,0,0.1);
+  padding: 15px;
+  transition: bottom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 5;
+  height: 280px;
+  overflow-y: auto;
+}
+.sticker-drawer.open { bottom: 65px; }
+
+.sticker-tabs { display: flex; justify-content: space-around; padding-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.05); margin-bottom: 15px; }
+.sticker-tabs span { font-size: 1.2rem; cursor: pointer; padding: 5px; }
+.sticker-tabs span.active { border-bottom: 2px solid var(--ios-blue); color: var(--ios-blue); }
+
+.sticker-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.sticker { font-size: 2.2rem; text-align: center; cursor: pointer; transition: 0.2s; user-select: none; }
+.sticker:active { transform: scale(0.8); }
+
+.recording { color: var(--ios-red) !important; animation: pulseRed 1s infinite; }
+@keyframes pulseRed { 50% { opacity: 0.5; } }
+
+.msg-image { max-width: 100%; border-radius: 14px; }
+.msg-audio { width: 200px; height: 32px; border-radius: 16px; }
+
+/* الإعدادات (iOS Action Sheet style) */
+.ios-action-sheet {
   position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-              linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-  background-size: 100% 2px, 3px 100%;
-  z-index: 10; pointer-events: none;
+  background-color: rgba(0,0,0,0.5);
+  display: flex; justify-content: center; align-items: flex-end;
+  z-index: 100;
 }
-
-#app { width: 100%; max-width: 500px; padding: 20px; z-index: 20; position: relative; }
-
-.cyber-panel {
-  background: rgba(0, 15, 0, 0.85);
-  border: 1px solid #00ff41;
-  box-shadow: 0 0 15px rgba(0, 255, 65, 0.2), inset 0 0 20px rgba(0, 255, 65, 0.1);
-  padding: 30px;
+.action-sheet-content {
+  background-color: var(--ios-text-white);
+  width: 100%; max-width: 420px;
+  border-radius: 20px 20px 0 0;
+  padding: 20px;
+  text-align: center;
 }
-
-/* تأثير الـ Glitch للعنوان */
-.glitch { position: relative; color: #fff; text-shadow: 0 0 5px #00ff41; margin-top: 0;}
-.glitch::before, .glitch::after {
-  content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+.action-btn-ios {
+  width: 100%; padding: 15px;
+  border-radius: 12px; border: none;
+  font-weight: 600; font-size: 1rem; cursor: pointer;
+  margin-top: 10px;
 }
-.glitch::before { left: 2px; text-shadow: -1px 0 #ff003c; background: rgba(0,0,0,0); animation: glitch-anim 2s infinite linear alternate-reverse; }
-.glitch::after { left: -2px; text-shadow: -1px 0 #00ffff; background: rgba(0,0,0,0); animation: glitch-anim 3s infinite linear alternate-reverse; }
+.action-btn-ios.danger { background-color: rgba(255,59,48,0.1); color: var(--ios-red); }
+.action-btn-ios.cancel { background-color: var(--ios-gray-bg); color: var(--ios-text-black); }
 
-@keyframes glitch-anim {
-  0% { clip: rect(24px, 9999px, 12px, 0); }
-  20% { clip: rect(85px, 9999px, 92px, 0); }
-  40% { clip: rect(12px, 9999px, 34px, 0); }
-  60% { clip: rect(65px, 9999px, 11px, 0); }
-  80% { clip: rect(32px, 9999px, 78px, 0); }
-  100% { clip: rect(98px, 9999px, 45px, 0); }
-}
-
-input[type="password"], input[type="text"] {
-  width: 100%; padding: 12px; margin: 15px 0;
-  border: 1px solid #00ff41; background: #000; color: #00ff41;
-  font-family: inherit; font-size: 1rem;
-}
-input:focus { outline: none; box-shadow: 0 0 10px #00ff41; }
-
-button {
-  background: #000; color: #00ff41; border: 1px solid #00ff41;
-  padding: 10px 20px; cursor: pointer; font-family: inherit; font-weight: bold;
-  text-transform: uppercase; transition: 0.2s;
-}
-button:hover { background: #00ff41; color: #000; box-shadow: 0 0 15px #00ff41; }
-
-.error { color: #ff003c; display: none; text-shadow: 0 0 5px #ff003c; margin-top: 10px;}
-
-#chat-screen { padding: 15px; display: flex; flex-direction: column; height: 85vh; position: relative;}
-
-.chat-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #00ff41; padding-bottom: 10px; margin-bottom: 15px; }
-.status { font-size: 0.8rem; color: #00ff41; opacity: 0.8; }
-
-.chat-messages { flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; padding-right: 5px; }
-.chat-messages::-webkit-scrollbar { width: 5px; }
-.chat-messages::-webkit-scrollbar-thumb { background: #00ff41; }
-
-.message { padding: 10px; border-left: 3px solid #00ff41; font-size: 0.95rem; width: 100%; position: relative; }
-.received { background: rgba(0, 255, 65, 0.05); color: #00ff41; }
-.sent { background: rgba(0, 255, 65, 0.15); border-left: none; border-right: 3px solid #00ff41; text-align: right; }
-
-.msg-content { display: block; margin-bottom: 5px; }
-
-/* أزرار التعديل والحذف */
-.msg-actions { display: flex; gap: 10px; justify-content: flex-end; font-size: 0.8rem; opacity: 0.5; }
-.msg-actions span { cursor: pointer; }
-.msg-actions span:hover { opacity: 1; text-shadow: 0 0 5px currentColor; }
-.btn-edit { color: #ffeb3b; }
-.btn-delete { color: #ff003c; }
-
-.chat-input { display: flex; gap: 8px; margin-top: 15px; }
-.chat-input input { margin: 0; flex-grow: 1; }
-.icon-btn { padding: 10px; }
-
-.recording { color: #ff003c !important; border-color: #ff003c !important; animation: blink 1s infinite; }
-@keyframes blink { 50% { opacity: 0.5; box-shadow: 0 0 10px #ff003c; } }
-
-.msg-image { max-width: 100%; border: 1px solid #00ff41; margin-top: 5px; filter: grayscale(50%) contrast(120%); }
-.msg-audio { filter: invert(100%) sepia(100%) saturate(500%) hue-rotate(80deg); width: 200px; height: 30px; margin-top: 5px; }
-
-/* إعدادات */
-#settings-modal { position: absolute; top: 10%; left: 10%; right: 10%; z-index: 100; box-shadow: 0 0 30px #000; }
+/* مؤشر الكتابة (iOS style) */
+.typing-indicator { font-size: 0.8rem; color: rgba(0,0,0,0.3); padding: 5px 15px; align-self: flex-start; }
+.typing-indicator .dot { display: inline-block; width: 6px; height: 6px; background-color: rgba(0,0,0,0.3); border-radius: 50%; margin: 0 2px; animation: pulse 1.2s infinite; }
+.typing-indicator .dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator .dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
