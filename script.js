@@ -1,4 +1,4 @@
-// ====== ضع إعدادات مشروعك الحقيقية هنا ======
+// ====== إعدادات مشروعك الحقيقية ======
 const firebaseConfig = {
   apiKey: "AIzaSyCkfcb4kiGpK_Dc8lJUADrez-S4_ZfiWmo",
   authDomain: "alwathiq-chat.firebaseapp.com",
@@ -147,9 +147,10 @@ messagesRef.on("child_changed", (snapshot) => {
 });
 
 
-// === نظام تسجيل الصوت والملفات ===
+// === نظام تسجيل الصوت والملفات المحدث ===
 let isRecording = false;
-let mediaRecorder; let audioChunks = [];
+let mediaRecorder; 
+let audioChunks = [];
 
 async function toggleRecording() {
   const micBtn = document.getElementById("mic-btn");
@@ -158,21 +159,42 @@ async function toggleRecording() {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaRecorder = new MediaRecorder(stream);
       audioChunks = [];
-      mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
+      
+      mediaRecorder.ondataavailable = e => { 
+        if (e.data.size > 0) audioChunks.push(e.data); 
+      };
+      
       mediaRecorder.onstop = () => {
+        // الحل الجذري: نأخذ صيغة الصوت من المتصفح نفسه مهما كان نوعه
+        const audioType = mediaRecorder.mimeType || 'audio/webm';
+        const audioBlob = new Blob(audioChunks, { type: audioType });
+        
         const reader = new FileReader();
-        reader.readAsDataURL(new Blob(audioChunks, { type: 'audio/webm' }));
+        reader.readAsDataURL(audioBlob);
         reader.onloadend = () => {
-          database.ref("messages").push().set({
-            sender: myName, type: "audio", content: reader.result, timestamp: Date.now()
-          });
+          if (reader.result) {
+            database.ref("messages").push().set({
+              sender: myName, 
+              type: "audio", 
+              content: reader.result, 
+              timestamp: Date.now()
+            });
+          }
         };
+        // إغلاق المايكروفون بعد التسجيل
         stream.getTracks().forEach(track => track.stop());
       };
-      mediaRecorder.start(); isRecording = true; micBtn.classList.add("recording");
-    } catch (err) { alert("Access Denied to Microphone."); }
+      
+      mediaRecorder.start(); 
+      isRecording = true; 
+      micBtn.classList.add("recording");
+    } catch (err) { 
+      alert("> ERROR: MICROPHONE ACCESS DENIED."); 
+    }
   } else {
-    mediaRecorder.stop(); isRecording = false; micBtn.classList.remove("recording");
+    mediaRecorder.stop(); 
+    isRecording = false; 
+    micBtn.classList.remove("recording");
   }
 }
 
