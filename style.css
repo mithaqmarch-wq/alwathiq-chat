@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0; padding: 0;
+  font-family: 'Share Tech Mono', monospace; /* خط الهاكرز */
+  background-color: #050505;
+  color: #00ff41; /* لون الماتريكس الأخضر */
+  height: 100vh;
+  display: flex; justify-content: center; align-items: center;
+  direction: ltr; /* اللغة البرمجية أفضل من اليسار لليمين */
+  overflow: hidden;
+}
+
+/* تأثير شاشات الهاكرز القديمة */
+.crt-overlay {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+              linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 2px, 3px 100%;
+  z-index: 10; pointer-events: none;
+}
+
+#app { width: 100%; max-width: 500px; padding: 20px; z-index: 20; position: relative; }
+
+.cyber-panel {
+  background: rgba(0, 15, 0, 0.85);
+  border: 1px solid #00ff41;
+  box-shadow: 0 0 15px rgba(0, 255, 65, 0.2), inset 0 0 20px rgba(0, 255, 65, 0.1);
+  padding: 30px;
+}
+
+/* تأثير الـ Glitch للعنوان */
+.glitch { position: relative; color: #fff; text-shadow: 0 0 5px #00ff41; margin-top: 0;}
+.glitch::before, .glitch::after {
+  content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+}
+.glitch::before { left: 2px; text-shadow: -1px 0 #ff003c; background: rgba(0,0,0,0); animation: glitch-anim 2s infinite linear alternate-reverse; }
+.glitch::after { left: -2px; text-shadow: -1px 0 #00ffff; background: rgba(0,0,0,0); animation: glitch-anim 3s infinite linear alternate-reverse; }
+
+@keyframes glitch-anim {
+  0% { clip: rect(24px, 9999px, 12px, 0); }
+  20% { clip: rect(85px, 9999px, 92px, 0); }
+  40% { clip: rect(12px, 9999px, 34px, 0); }
+  60% { clip: rect(65px, 9999px, 11px, 0); }
+  80% { clip: rect(32px, 9999px, 78px, 0); }
+  100% { clip: rect(98px, 9999px, 45px, 0); }
+}
+
+input[type="password"], input[type="text"] {
+  width: 100%; padding: 12px; margin: 15px 0;
+  border: 1px solid #00ff41; background: #000; color: #00ff41;
+  font-family: inherit; font-size: 1rem;
+}
+input:focus { outline: none; box-shadow: 0 0 10px #00ff41; }
+
+button {
+  background: #000; color: #00ff41; border: 1px solid #00ff41;
+  padding: 10px 20px; cursor: pointer; font-family: inherit; font-weight: bold;
+  text-transform: uppercase; transition: 0.2s;
+}
+button:hover { background: #00ff41; color: #000; box-shadow: 0 0 15px #00ff41; }
+
+.error { color: #ff003c; display: none; text-shadow: 0 0 5px #ff003c; margin-top: 10px;}
+
+#chat-screen { padding: 15px; display: flex; flex-direction: column; height: 85vh; position: relative;}
+
+.chat-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #00ff41; padding-bottom: 10px; margin-bottom: 15px; }
+.status { font-size: 0.8rem; color: #00ff41; opacity: 0.8; }
+
+.chat-messages { flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; padding-right: 5px; }
+.chat-messages::-webkit-scrollbar { width: 5px; }
+.chat-messages::-webkit-scrollbar-thumb { background: #00ff41; }
+
+.message { padding: 10px; border-left: 3px solid #00ff41; font-size: 0.95rem; width: 100%; position: relative; }
+.received { background: rgba(0, 255, 65, 0.05); color: #00ff41; }
+.sent { background: rgba(0, 255, 65, 0.15); border-left: none; border-right: 3px solid #00ff41; text-align: right; }
+
+.msg-content { display: block; margin-bottom: 5px; }
+
+/* أزرار التعديل والحذف */
+.msg-actions { display: flex; gap: 10px; justify-content: flex-end; font-size: 0.8rem; opacity: 0.5; }
+.msg-actions span { cursor: pointer; }
+.msg-actions span:hover { opacity: 1; text-shadow: 0 0 5px currentColor; }
+.btn-edit { color: #ffeb3b; }
+.btn-delete { color: #ff003c; }
+
+.chat-input { display: flex; gap: 8px; margin-top: 15px; }
+.chat-input input { margin: 0; flex-grow: 1; }
+.icon-btn { padding: 10px; }
+
+.recording { color: #ff003c !important; border-color: #ff003c !important; animation: blink 1s infinite; }
+@keyframes blink { 50% { opacity: 0.5; box-shadow: 0 0 10px #ff003c; } }
+
+.msg-image { max-width: 100%; border: 1px solid #00ff41; margin-top: 5px; filter: grayscale(50%) contrast(120%); }
+.msg-audio { filter: invert(100%) sepia(100%) saturate(500%) hue-rotate(80deg); width: 200px; height: 30px; margin-top: 5px; }
+
+/* إعدادات */
+#settings-modal { position: absolute; top: 10%; left: 10%; right: 10%; z-index: 100; box-shadow: 0 0 30px #000; }
