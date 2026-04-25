@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الواثق جات - Secure Terminal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="crt-overlay"></div>
+
+  <div id="app">
+    <div id="login-screen" class="cyber-panel">
+      <h2 class="glitch" data-text="SYSTEM_LOCKED">SYSTEM_LOCKED</h2>
+      <p>> TERMINAL_ACCESS_REQUIRED</p>
+      <p>> STATUS: <span style="color: #ff003c;">ENCRYPTED</span></p>
+      <input type="password" id="passcode" placeholder="[Enter Decryption Key]...">
+      <button onclick="checkPassword()">INITIALIZE_CONNECTION</button>
+      <p id="error-msg" class="error">> ACCESS_DENIED. TRACING_IP...</p>
+    </div>
+
+    <div id="chat-screen" class="cyber-panel" style="display: none;">
+      <div class="chat-header">
+        <div>
+          <h2 class="glitch" data-text="ALWATHIQ_PROTOCOL">ALWATHIQ_PROTOCOL</h2>
+          <span class="status">> CONNECTION_SECURE [NODE_01]</span>
+        </div>
+        <button class="icon-btn settings-btn" onclick="toggleSettings()" title="System Settings">⚙️</button>
+      </div>
+      
+      <div class="chat-messages" id="messages">
+        <div class="message received terminal-text">
+          > SYSTEM_BOOT_COMPLETE.<br>
+          > END_TO_END_ENCRYPTION: ENABLED.<br>
+          > WAITING_FOR_INPUT...
+        </div>
+      </div>
+      
+      <div class="chat-input">
+        <input type="file" id="file-input" style="display: none;" onchange="handleFileUpload(event)">
+        <button class="icon-btn action-btn" title="Upload Payload" onclick="document.getElementById('file-input').click()">[📎]</button>
+        <input type="text" id="msg-input" placeholder="> Input command/message...">
+        <button class="icon-btn action-btn" id="mic-btn" title="Voice Comms" onclick="toggleRecording()">[🎤]</button>
+        <button class="send-btn" onclick="sendMessage()">[EXECUTE]</button>
+      </div>
+    </div>
+
+    <div id="settings-modal" class="cyber-panel" style="display: none;">
+      <h3>> SYSTEM_SETTINGS</h3>
+      <button onclick="toggleSettings()">[X] CLOSE_MENU</button>
+      <br><br>
+      <button style="width:100%; border-color:#ff003c; color:#ff003c;" onclick="alert('تدمير ذاتي غير مفعل في هذه النسخة')">[!] SELF_DESTRUCT_CHAT</button>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  
+  <script src="script.js"></script>
+</body>
+</html>
