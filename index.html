@@ -1,14 +1,15 @@
-<!DOCTYPE html>
+<!<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>الواثق جات - iOS Edition</title>
   <link rel="stylesheet" href="style.css">
-  </head>
+</head>
 <body>
 
   <div id="app">
+    <!-- شاشة الدخول -->
     <div id="login-screen" class="ios-panel centered">
       <div class="passcode-header">
         <div class="lock-icon">🔒</div>
@@ -16,12 +17,13 @@
         <p>الواثق جات - بوابة آمنة</p>
       </div>
       <div class="passcode-input-group">
-        <input type="password" id="passcode" class="ios-input-round" placeholder="••••" maxlength="4">
+        <input type="password" id="passcode" class="ios-input-round" placeholder="••••" maxlength="4" autocomplete="off">
         <button class="ios-btn-blue" onclick="checkPassword()">دخول</button>
       </div>
       <p id="error-msg" class="error">الرمز غير صحيح، حاول مجدداً.</p>
     </div>
 
+    <!-- شاشة المحادثة -->
     <div id="chat-screen" class="ios-panel" style="display: none;">
       <div class="chat-header ios-navbar">
         <div class="nav-left">
@@ -31,11 +33,10 @@
           <h2>الواثق جات</h2>
           <span class="status">متصل ● مشفر</span>
         </div>
-        <div class="nav-right">
-          </div>
+        <div class="nav-right"></div>
       </div>
       
-      <div class="chat-messages" id="messages" onclick="closeStickers()">
+      <div class="chat-messages" id="messages">
         <div class="message received sys-msg">
           <p>جميع المراسلات مشفرة تماماً بين الطرفين.</p>
         </div>
@@ -44,42 +45,14 @@
       <div id="typing-indicator" class="typing-indicator" style="display: none;">
         <span class="dot"></span><span class="dot"></span><span class="dot"></span>
       </div>
-
-      <div id="sticker-drawer" class="sticker-drawer">
-        <div class="sticker-tabs">
-          <span class="active">😊</span><span>🐱</span><span>🍔</span><span>⚽</span><span>🚗</span><span>💡</span><span>❤️</span><span>🏁</span>
-        </div>
-        <div class="sticker-grid">
-          <div class="sticker" onclick="sendSticker('✨')">✨</div>
-          <div class="sticker" onclick="sendSticker('🔥')">🔥</div>
-          <div class="sticker" onclick="sendSticker('💯')">💯</div>
-          <div class="sticker" onclick="sendSticker('👑')">👑</div>
-          <div class="sticker" onclick="sendSticker('❤️')">❤️</div>
-          <div class="sticker" onclick="sendSticker('😂')">😂</div>
-          <div class="sticker" onclick="sendSticker('🤣')">🤣</div>
-          <div class="sticker" onclick="sendSticker('😊')">😊</div>
-          <div class="sticker" onclick="sendSticker('👍')">👍</div>
-          <div class="sticker" onclick="sendSticker('🙌')">🙌</div>
-          <div class="sticker" onclick="sendSticker('🚀')">🚀</div>
-          <div class="sticker" onclick="sendSticker('🌟')">🌟</div>
-          <div class="sticker" onclick="sendSticker('🎉')">🎉</div>
-          <div class="sticker" onclick="sendSticker('💎')">💎</div>
-          <div class="sticker" onclick="sendSticker('💪')">💪</div>
-          <div class="sticker" onclick="sendSticker('😎')">😎</div>
-          <div class="sticker" onclick="sendSticker('🥺')">🥺</div>
-          <div class="sticker" onclick="sendSticker('🤬')">🤬</div>
-          <div class="sticker" onclick="sendSticker('🤔')">🤔</div>
-          <div class="sticker" onclick="sendSticker('🤫')">🤫</div>
-        </div>
-      </div>
       
+      <!-- شريط الإدخال -->
       <div class="chat-input-bar ios-input-bar">
         <div class="input-actions-left">
-          <button class="icon-btn-ios" onclick="toggleStickers()">🤩</button>
           <input type="file" id="file-input" style="display: none;" onchange="handleFileUpload(event)">
           <button class="icon-btn-ios" onclick="document.getElementById('file-input').click()">📎</button>
         </div>
-        <input type="text" id="msg-input" placeholder="رسالة iMessage" onfocus="closeStickers()">
+        <input type="text" id="msg-input" placeholder="رسالة iMessage..." autocomplete="off">
         <div class="input-actions-right">
           <button class="icon-btn-ios" id="mic-btn" onclick="toggleRecording()">🎤</button>
           <button class="send-btn-ios" onclick="sendMessage()">⬆️</button>
@@ -87,11 +60,25 @@
       </div>
     </div>
 
+    <!-- نافذة الإعدادات -->
     <div id="settings-modal" class="ios-action-sheet" style="display: none;">
       <div class="action-sheet-content">
         <h3>إعدادات المحادثة</h3>
         <button class="action-btn-ios danger" onclick="clearLocalChat()">مسح المحادثة محلياً</button>
         <button class="action-btn-ios cancel" onclick="toggleSettings()">إلغاء</button>
+      </div>
+    </div>
+
+    <!-- نافذة التفاعلات (Reactions) -->
+    <div id="reaction-modal" class="reaction-overlay" style="display: none;" onclick="closeReactions()">
+      <div class="reaction-box" id="reaction-box" onclick="event.stopPropagation()">
+        <span onclick="sendReaction('❤️')">❤️</span>
+        <span onclick="sendReaction('😂')">😂</span>
+        <span onclick="sendReaction('😮')">😮</span>
+        <span onclick="sendReaction('😢')">😢</span>
+        <span onclick="sendReaction('🙏')">🙏</span>
+        <span onclick="sendReaction('👍')">👍</span>
+        <span onclick="sendReaction('👎')">👎</span>
       </div>
     </div>
   </div>
@@ -101,3 +88,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
